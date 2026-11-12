@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Georg Keilbar — Statistics</title>
+<meta name="description" content="Georg Keilbar, statistician at Humboldt-Universität zu Berlin. Research on explainable machine learning, inference for stochastic gradient descent, distributional methods and panel data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1f24;
+    --muted: #5d6470;
+    --line: #e3e1db;
+    --paper: #fbfaf7;
+    --accent: #1f4e79;
+    --accent-soft: #e8eef5;
+    --max: 760px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e7e5e0;
+      --muted: #a3a8b0;
+      --line: #33363c;
+      --paper: #16181b;
+      --accent: #8db8e6;
+      --accent-soft: #1f2a36;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.65 "Source Serif 4", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: currentColor; }
+
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .inner {
+    max-width: var(--max); margin: 0 auto; padding: 0.7rem 1.25rem;
+    display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: baseline;
+    font: 500 0.82rem/1.4 Inter, system-ui, sans-serif; letter-spacing: 0.02em;
+  }
+  nav .name { font-weight: 600; color: var(--ink); margin-right: auto; }
+  nav a:not(.name) { color: var(--muted); }
+  nav a:not(.name):hover { color: var(--accent); }
+
+  main { max-width: var(--max); margin: 0 auto; padding: 0 1.25rem 5rem; }
+
+  header.hero { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--line); }
+  .hero h1 {
+    font-weight: 600; font-size: clamp(2.2rem, 6vw, 3rem); line-height: 1.1;
+    margin: 0 0 0.6rem; letter-spacing: -0.01em;
+  }
+  .hero-top { display: flex; align-items: center; gap: 1.8rem; margin-bottom: 1.4rem; }
+  .hero-top .role { margin: 0; }
+  .photo { width: 150px; height: 200px; border-radius: 4px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--line); }
+  @media (max-width: 600px) { .hero-top { flex-direction: column; align-items: flex-start; gap: 1.2rem; } .photo { width: 120px; height: 160px; } }
+  .hero .role { font: 500 0.95rem/1.5 Inter, system-ui, sans-serif; color: var(--muted); margin: 0 0 1.6rem; }
+  .hero p.lead { font-size: 1.12rem; margin: 0 0 1.4rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.5rem; font: 500 0.82rem Inter, system-ui, sans-serif; }
+  .links a {
+    padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink);
+  }
+  .links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { padding: 2.8rem 0 0.5rem; scroll-margin-top: 3rem; }
+  h2 {
+    font: 600 0.78rem/1 Inter, system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--accent); margin: 0 0 1.4rem;
+  }
+  h3 { font-size: 1.15rem; font-weight: 600; margin: 1.8rem 0 0.4rem; }
+  h3:first-of-type { margin-top: 0; }
+  p { margin: 0 0 1rem; }
+
+  .pub { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+  .pub li { padding: 0.75rem 0; border-top: 1px solid var(--line); }
+  .pub li:last-child { border-bottom: 1px solid var(--line); }
+  .pub .title { font-weight: 600; display: block; }
+  .pub .authors { color: var(--muted); font-size: 0.95rem; }
+  .pub .venue { font-style: italic; font-size: 0.95rem; }
+  .pub .me { color: var(--ink); font-weight: 600; }
+  .tag {
+    display: inline-block; font: 500 0.72rem Inter, system-ui, sans-serif; letter-spacing: 0.03em;
+    background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; margin-left: 0.3rem;
+    vertical-align: 1px;
+  }
+  .subhead { font: 600 0.85rem Inter, system-ui, sans-serif; color: var(--muted); margin: 1.6rem 0 0.4rem; }
+
+  .timeline { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.55rem 1.2rem; margin: 0 0 1rem; }
+  .timeline dt { font: 500 0.85rem/1.65 Inter, system-ui, sans-serif; color: var(--muted); }
+  .timeline dd { margin: 0; }
+  .timeline dd small { color: var(--muted); font-size: 0.92rem; display: block; }
+
+  .courses { columns: 2; column-gap: 2rem; padding-left: 1.1rem; margin: 0 0 1rem; }
+  .courses li { break-inside: avoid; margin-bottom: 0.3rem; }
+
+  .talks dt { font: 600 0.85rem/1.65 Inter, system-ui, sans-serif; color: var(--accent); }
+
+  footer {
+    max-width: var(--max); margin: 0 auto; padding: 2rem 1.25rem 3rem; border-top: 1px solid var(--line);
+    font: 0.8rem Inter, system-ui, sans-serif; color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .timeline { grid-template-columns: 1fr; gap: 0 0; }
+    .timeline dd { margin-bottom: 0.8rem; }
+    .courses { columns: 1; }
+    nav .name { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="name" href="#top">Georg Keilbar</a>
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#teaching">Teaching</a>
+    <a href="#talks">Talks</a>
+    <a href="#cv">CV</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main id="top">
+
+<header class="hero">
+  <div class="hero-top">
+    <img class="photo" src="photo.jpg" alt="Georg Keilbar" width="150" height="200">
+    <div>
+      <h1>Georg Keilbar</h1>
+      <p class="role">Postdoctoral Researcher · Chair of Statistics · Humboldt-Universität zu Berlin</p>
+    </div>
+  </div>
+  <p class="lead">I develop statistical methods for modern data science, with a focus on giving machine-learning tools a rigorous statistical footing.</p>
+  <div class="links">
+    <!-- Replace these search links with your profile URLs -->
+    <a href="https://scholar.google.com/citations?view_op=search_authors&amp;mauthors=Georg+Keilbar">Google Scholar</a>
+    <a href="https://www.linkedin.com/search/results/people/?keywords=Georg%20Keilbar">LinkedIn</a>
+    <a href="https://www.researchgate.net/search/researcher?q=Georg%20Keilbar">ResearchGate</a>
+  </div>
+</header>
+
+<section id="research">
+  <h2>Research</h2>
+  <p>I develop statistical methods for modern data science, with a focus on giving machine-learning tools a rigorous statistical footing: nonparametric theory and valid inference for explainable ML (such as Shapley curves), and inferential guarantees for stochastic gradient descent and high-dimensional data. On the applied side, I work on distributional and causal methods and panel data, with applications to economic inequality in Germany, financial systemic risk, LLM-generated text and biomedical data.</p>
+</section>
+
+<section id="publications">
+  <h2>Publications</h2>
+
+  <p class="subhead">Journal articles</p>
+  <ul class="pub">
+    <li>
+      <span class="title">A projection based approach for interactive fixed effects panel data models</span>
+      <span class="authors"><span class="me">G. Keilbar</span>, J. Rodriguez-Poo, A. Soberon, W. Wang</span><br>
+      <span class="venue">Econometric Reviews</span>, 45(1), 93–110, 2026.
+    </li>
+    <li>
+      <span class="title">Shapley curves: a smoothing perspective</span>
+      <span class="authors">R. Miftachov, <span class="me">G. Keilbar</span>, W. K. Härdle</span><br>
+      <span class="venue">Journal of Business &amp; Economic Statistics</span>, 43(2), 312–323, 2025.
+    </li>
+    <li>
+      <span class="title">Recursive quantile estimation: non-asymptotic confidence bounds</span>
+      <span class="authors">L. Chen, <span class="me">G. Keilbar</span>, W. B. Wu</span><br>
+      <span class="venue">Journal of Machine Learning Research</span>, 24(91), 1–25, 2023.
+    </li>
+    <li>
+      <span class="title">Modelling systemic risk using neural network quantile regression</span>
+      <span class="authors"><span class="me">G. Keilbar</span>, W. Wang</span><br>
+      <span class="venue">Empirical Economics</span>, 62(1), 93–118, 2022.
+    </li>
+    <li>
+      <span class="title">On cointegration and cryptocurrency dynamics</span>
+      <span class="authors"><span class="me">G. Keilbar</span>, Y. Zhang</span><br>
+      <span class="venue">Digital Finance</span>, 3(1), 1–23, 2021.
+    </li>
+  </ul>
+
+  <p class="subhead">Working papers</p>
+  <ul class="pub">
+    <li>
+      <span class="title">Embedded conditional independence tests for large language model generated text with an application to German parliament speeches</span>
+      <span class="authors">M. Simnacher, <span class="me">G. Keilbar</span>, B. König, C. Lipper, S. Greven</span><br>
+      2026. <a href="https://arxiv.org/abs/2609.00946">arXiv:2609.00946</a>
+    </li>
+    <li>
+      <span class="title">Counterfactual density effects and the German East–West gap</span>
+      <span class="authors"><span class="me">G. Keilbar</span>, S. Greven</span><br>
+      2026. <a href="https://arxiv.org/abs/2603.28470">arXiv:2603.28470</a>
+    </li>
+    <li>
+      <span class="title">Online simultaneous inference for quantiles via smoothed stochastic gradient descent</span>
+      <span class="authors">L. Chen, <span class="me">G. Keilbar</span>, W. B. Wu</span><br>
+      2025. <a href="https://arxiv.org/abs/2505.13299">arXiv:2505.13299</a>
+    </li>
+    <li>
+      <span class="title">High-dimensional inference on jumps in nonparametric time series regression models</span>
+      <span class="authors">L. Chen, <span class="me">G. Keilbar</span>, L. Su, W. Wang</span><br>
+      2023. <a href="https://arxiv.org/abs/2312.01162">arXiv:2312.01162</a>
+    </li>
+  </ul>
+
+  <p class="subhead">Work in progress</p>
+  <ul class="pub">
+    <li><span class="title">Local density treatment effects and regression discontinuity designs</span><span class="authors">with S. Greven</span></li>
+    <li><span class="title">A semiparametric Chamberlain approach for time-varying interactive fixed effects</span><span class="authors">with J. Rodriguez-Poo, A. Soberon</span></li>
+    <li><span class="title">Interactive fixed effects in short panels: a nonparametric Mundlak approach</span><span class="authors">with J. Rodriguez-Poo, A. Soberon</span></li>
+  </ul>
+
+  <p class="subhead">Software packages</p>
+  <ul class="pub">
+    <li>
+      <span class="title"><a href="https://cran.r-project.org/package=hdthreshold">hdthreshold</a><span class="tag">R · CRAN</span></span>
+      <span class="authors">Uniform tests for the existence and homogeneity of jumps in high-dimensional nonparametric time series. Author and maintainer.</span>
+    </li>
+  </ul>
+
+  <p class="subhead">Thesis</p>
+  <ul class="pub">
+    <li>
+      <span class="title">Essays on Modern Econometrics and Machine Learning</span>
+      <span class="authors">PhD thesis, Humboldt-Universität zu Berlin, <em>summa cum laude</em>. Advisors: Weining Wang and Wolfgang Karl Härdle.</span>
+    </li>
+  </ul>
+</section>
+
+<section id="teaching">
+  <h2>Teaching</h2>
+  <p>I teach statistics from undergraduate mathematics to graduate courses in nonparametric and high-dimensional statistics, in English and German, with the aim of a critical, well-founded use of statistical and ML methods.</p>
+
+  <p class="subhead">Humboldt-Universität zu Berlin</p>
+  <ul class="courses">
+    <li>Nonparametric Statistics of Machine Learning <em>(seminar, W2026)</em></li>
+    <li>Statistical Inference <em>(W2024–W2026)</em></li>
+    <li>Advanced Statistics <em>(S2026)</em></li>
+    <li>Generalized Regression <em>(S2026)</em></li>
+    <li>Statistics of High Dimensional Data <em>(seminar, W2025)</em></li>
+    <li>Non- and Semiparametric Modelling <em>(W2020, S2025)</em></li>
+    <li>Statistics of Financial Markets II <em>(S2020)</em></li>
+    <li>Advanced Methods in Quantitative Finance <em>(S2019)</em></li>
+  </ul>
+
+  <p class="subhead">University of Vienna</p>
+  <ul class="courses">
+    <li>Statistics of High Dimensional and Complex Data <em>(W2022)</em></li>
+    <li>Mathematical Optimization <em>(S2023)</em></li>
+    <li>Analysis <em>(exercises, S2022–S2023)</em></li>
+    <li>Mathematics 1 <em>(exercises, 2022)</em></li>
+  </ul>
+
+  <p class="subhead">Supervision</p>
+  <p>Bachelor's theses: Tihomir Todorov, Iris Bauer (University of Vienna). Master's theses: Lea Runge, Yuan Li (HU Berlin).</p>
+
+  <p class="subhead">PhD committees</p>
+  <p>Bruno Spilak, Jovanka Matic, Francis Liu, Alexander Volkmann, Julian Winkel, Ratmir Miftachov (all HU Berlin).</p>
+</section>
+
+<section id="talks">
+  <h2>Selected talks</h2>
+  <dl class="timeline talks">
+    <dt>2026</dt><dd>IAAE, Nova SBE Lisbon · EMS, USI Lugano · CMStatistics, Berlin</dd>
+    <dt>2025</dt><dd>DAGStat, HU Berlin · Research Seminar, HTW Berlin</dd>
+    <dt>2024</dt><dd>Bernoulli-IMS World Congress, Bochum · EcoSta, Beijing · CoDaWork, Girona · WIAS Berlin · University of Cologne</dd>
+    <dt>2023</dt><dd>EMS, Warsaw · CMStatistics, Berlin</dd>
+    <dt>2021</dt><dd>WIAS Berlin · University of York</dd>
+    <dt>2019–20</dt><dd>SoFiE, Fudan University · Fudan Seminar, Shanghai · Charles University Prague · NOVA SBE Lisbon · NCTU Hsinchu</dd>
+  </dl>
+</section>
+
+<section id="cv">
+  <h2>Curriculum vitae</h2>
+  <h3>Employment</h3>
+  <dl class="timeline">
+    <dt>since 2024</dt><dd>Associate Researcher, DFG research unit DeSBi<small>Fusing Deep Learning and Statistics towards Understanding Structured Biomedical Data</small></dd>
+    <dt>since 2023</dt><dd>Postdoc, Chair of Statistics<small>Humboldt-Universität zu Berlin</small></dd>
+    <dt>2021–2023</dt><dd>Postdoc, Department of Statistics and Operations Research<small>University of Vienna</small></dd>
+    <dt>2019–2020</dt><dd>Visiting Researcher, WISE<small>Xiamen University</small></dd>
+    <dt>2018–2021</dt><dd>Doctoral Researcher, IRTG 1792 “High Dimensional Nonstationary Time Series”<small>Humboldt-Universität zu Berlin</small></dd>
+  </dl>
+
+  <h3>Education</h3>
+  <dl class="timeline">
+    <dt>2021</dt><dd>PhD in Statistics, <em>summa cum laude</em><small>Humboldt-Universität zu Berlin</small></dd>
+    <dt>2018</dt><dd>M.Sc. Economics<small>Humboldt-Universität zu Berlin</small></dd>
+    <dt>2014</dt><dd>B.Sc. Economics<small>Humboldt-Universität zu Berlin</small></dd>
+  </dl>
+
+  <p class="subhead">Service</p>
+  <p>Organizing team, DAGStat 2025 (Berlin). Organizer of IRTG 1792 short courses (2018–2021). Referee for, among others, <em>Journal of Financial Econometrics</em>, <em>Journal of Banking and Finance</em>, <em>Computational Statistics</em> and <em>Empirical Economics</em>.</p>
+  <!-- To link a PDF CV, add cv.pdf to the repository and uncomment:
+  <p><a href="cv.pdf">Download full CV (PDF)</a></p> -->
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <dl class="timeline">
+    <dt>Email</dt><dd><a href="mailto:georg.keilbar@hu-berlin.de">georg.keilbar@hu-berlin.de</a></dd>
+    <dt>Phone</dt><dd>+49 30 2093-99554</dd>
+    <dt>Office</dt><dd>Room 400<br>Spandauer Straße 1<br>10178 Berlin<small>Office hours by appointment</small></dd>
+    <dt>Mail address</dt><dd>Humboldt-Universität zu Berlin<br>School of Business and Economics<br>Chair of Statistics<br>Unter den Linden 6<br>10099 Berlin<br>Germany</dd>
+  </dl>
+</section>
+
+</main>
+
+<footer>
+  © <span id="y">2026</span> Georg Keilbar · Last updated November 2026
+</footer>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
